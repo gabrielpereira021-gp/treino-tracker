@@ -1,6 +1,8 @@
 #lita de treinos
 import json
 import os
+import diario_main
+from datetime import datetime
 
 #criaçao alto de ficheiro e conexao com a lista
 if os.path.exists("treinos.json"):
@@ -11,9 +13,7 @@ else:
 
 #def para adicionar um novo treino
 def adicionar_treino():
-  print("adicione a data do seu terino")
-  print("ex. aa-mm-aaaa")
-  data = input("data:")
+  diario_main.pedir_data()
   print("adicione o tipo do treino")
   tipo = input("tipo:")
   print("adicione a duracao do treino")

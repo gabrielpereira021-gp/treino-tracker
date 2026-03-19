@@ -1,11 +1,10 @@
-def adicionar_treino():
-    print("adicione a data do seu terino")
-    data = int(input("data:"))
-    print("adicione o tipo do treino")
-    tipo = input("tipo:")
-    print("adicione a duracao do treino")
-    duracao = int(input("duracao:"))
-    print("adicione uma descricao do treino")
-    descricao = input("descricao:")
-    treino = {"data": data, "tipo": tipo, "duracao": duracao, "descricao": descricao}
-    treinos.append(treino) 
+from datetime import datetime
+
+def pedir_data():
+    while True:
+        data = input("Data do treino (dd-mm-aaaa):")
+        try:
+            datetime.strptime(data, "%d-%m-%Y")
+            return data
+        except:
+            print("Formato invalido! Tente novamente.")
