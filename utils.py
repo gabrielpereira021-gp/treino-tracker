@@ -25,3 +25,10 @@ def criar_treino():
     "descricao": descricao
   }
   return treino
+
+def mostrar_treino(treino):
+    print(f"Data:", treino["data"])
+    print(f"Tipo:", treino["tipo"])
+    print(f"Duração:", treino["duracao"], "min")
+    print(f"Descrição:", treino["descricao"])
+    print("_"*10)

@@ -26,10 +26,7 @@ def procurar_treino():
     encontrado = False
     for treino in lista:
       if treino["data"] == data_procurada:
-        print("Data:", treino["data"])
-        print("Tipo:", treino["tipo"]) 
-        print("Duracao:", treino["duracao"])
-        print("descricao", treino["descricao"])
+        utils.mostrar_treino(treino)
         encontrado = True
     if not encontrado:
       print("nenhum treino encontrado com essa data.")
@@ -39,7 +36,8 @@ def procurar_treino():
 #def para listar todos os treinos adicionados
 def listar_treinos():
   if len(lista) > 0:
-    print(lista)
+    for treino in lista:
+      utils.mostrar_treino(treino)
   else:
     print("Nao há treinos adicionados!")
 
@@ -96,11 +94,7 @@ def buscar_tipo():
     encontrado = False
     for treino in lista:
       if treino["tipo"] == tipo_procurado:
-        print("Data:", treino["data"])
-        print("Tipo:", treino["tipo"]) 
-        print("Duracao:", treino["duracao"])
-        print("descricao", treino["descricao"])
-        print("_"*30)
+        utils.mostrar_treino(treino)
         encontrado = True
     if not encontrado:
       print("nenhum treino encontrado deste tipo.")
@@ -114,11 +108,7 @@ def buscar_duracao():
     encontrado = False
     for treino in lista:
       if treino["duracao"] >= duracao_procurada:
-        print("Data:", treino["data"])
-        print("Tipo:", treino["tipo"]) 
-        print("Duracao:", treino["duracao"])
-        print("descricao", treino["descricao"])
-        print("_"*30)
+        utils.mostrar_treino(treino)
         encontrado = True
     if not encontrado:
       print("nenhum treino encontrado deste tipo.")
@@ -138,22 +128,15 @@ def estatistitcas():
     print("Total de treinos:", total)
     print("Tempo total treinado", total_time, "min")
     print("Duracao média:", f"{media_time:.2f}", "min")
+    print("_"*10)
     print("Treino mais longo:")
     for treino in lista:
       if treino["duracao"] == moretime:
-        print("Data:", treino["data"])
-        print("Tipo:", treino["tipo"]) 
-        print("Duracao:", treino["duracao"])
-        print("descricao", treino["descricao"])
-        print("_"*30)
+        utils.mostrar_treino(treino)
     print("treino mais curto:")
     for treino in lista:
       if treino["duracao"] == lesstime:
-        print("Data:", treino["data"])
-        print("Tipo:", treino["tipo"]) 
-        print("Duracao:", treino["duracao"])
-        print("descricao", treino["descricao"])
-        print("_"*30)
+        utils.mostrar_treino(treino)
     print("Tipo de treino:") 
     tipos = [treino["tipo"] for treino in lista]
     contagem = {}
@@ -175,6 +158,7 @@ def estatistitcas():
 
 # menu funcional
 while True:
+  print ("-"*10, "MENU", "-"*10)
   print ("1 - adicionar treino")
   print ("2 - buscar treino por data")
   print ("3 - listar treino")
