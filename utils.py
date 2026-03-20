@@ -11,13 +11,9 @@ def pedir_data():
 
 def criar_treino():
   data = pedir_data()
-  print("adicione o tipo do treino")
-  tipo = input("tipo:")
-  print("adicione a duracao do treino")
-  print("pf add apenas numeros")
-  duracao = int(input("duracao:"))
-  print("adicione uma descricao do treino")
-  descricao = input("descricao:")
+  tipo = input("Tipo do treino:")
+  duracao = pedir_duracao()
+  descricao = input("Descrição do treino:")
   treino = {
     "data": data, 
     "tipo": tipo, 
@@ -32,3 +28,14 @@ def mostrar_treino(treino):
     print(f"Duração:", treino["duracao"], "min")
     print(f"Descrição:", treino["descricao"])
     print("_"*10)
+
+def pedir_duracao():
+    while True:
+        try:
+           duracao = int(input("Digite a duração (min):"))
+           if duracao > 0:
+                return duracao
+           else:
+                print("A duração do treino tem de ser maior que 0!")
+        except:
+            print("Digite um número valido!")

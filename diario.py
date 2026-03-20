@@ -54,7 +54,7 @@ def atualizar_treino():
       new_type = input("insira a novo tipo (ENTER para nao modificar):")
       if new_type != "":
         treino["tipo"] = new_type
-      new_dur = input("insira a nova duracao (ENTER para nao modificar):")
+      new_dur = input("insira a nova duração (ENTER para nao modificar):")
       if new_dur != "":
         treino["duracao"] = int(new_dur)
       new_desc = input("insira a nova descricao (ENTER para nao modificar):")
@@ -104,7 +104,7 @@ def buscar_tipo():
 #def para buscar treinos por duracao minima
 def buscar_duracao():
   if len(lista) > 0:
-    duracao_procurada = int(input("Digite a duracao minima:"))
+    duracao_procurada = utils.pedir_duracao()
     encontrado = False
     for treino in lista:
       if treino["duracao"] >= duracao_procurada:
