@@ -1,5 +1,6 @@
 from datetime import datetime
 
+# Funcao para manter formato de data  sempre o mesmo
 def pedir_data():
     while True:
         data = input("Data do treino (dd-mm-aaaa):")
@@ -9,6 +10,7 @@ def pedir_data():
         except:
             print("Formato invalido! Tente novamente.")
 
+# Funcao de criacao de treino separada do codigo principal
 def criar_treino():
   data = pedir_data()
   tipo = input("Tipo do treino:")
@@ -22,6 +24,7 @@ def criar_treino():
   }
   return treino
 
+# Funcao para mostrar os treinos de melho forma no terminal
 def mostrar_treino(treino):
     print(f"Data:", treino["data"])
     print(f"Tipo:", treino["tipo"])
@@ -29,6 +32,7 @@ def mostrar_treino(treino):
     print(f"Descrição:", treino["descricao"])
     print("_"*10)
 
+# Funcao para manter a duracao sempre em numeros acima de 0
 def pedir_duracao():
     while True:
         try:
