@@ -27,13 +27,12 @@ def pedir_duracao():
 # Funcao para manter a data sempre em um mesmo modelo
 def pedir_data():
     while True:
-        data = input("Data do treino (dd-mm-aaaa):")
+        data = input("Data do treino (dd/mm/aaaa):")
         try:
-            datetime.strptime(data, "%d-%m-%Y")
+            datetime.strptime(data, "%d/%m/%Y")
             return data
         except:
             print("Formato invalido! Tente novamente.")
-
 
 #def para adicionar um novo treino
 def adicionar_treino():
@@ -43,17 +42,20 @@ def adicionar_treino():
   descricao = input("Descrição do treino:")
   treino = service.criar_treino(data, tipo, duracao, descricao)
   lista.append(treino)
-  storage.salvar_in_treinos(lista)
-  print("treino adicionado com sucesso!")
+  storage.salvar_treinos(lista)
+  resultado = service.alert(lista)
+  if resultado:
+    print(resultado)
+  print("Treino adicionado com sucesso!")
 
 #def para procurar um treino pela data
 def procurar_treino():
   if len(lista) > 0:
-    data_procurada = input("Digite a data (dd-mm-aaaa):")
+    data_procurada = pedir_data()
     encontrado = False
     for treino in lista:
       if treino["data"] == data_procurada:
-        utils.mostrar_treino(treino)
+        service.mostrar_treino(treino)
         encontrado = True
     if not encontrado:
       print("nenhum treino encontrado com essa data.")
@@ -64,7 +66,7 @@ def procurar_treino():
 def listar_treinos():
   if len(lista) > 0:
     for treino in lista:
-      utils.mostrar_treino(treino)
+      service.mostrar_treino(treino)
   else:
     print("Nao há treinos adicionados!")
 
@@ -88,8 +90,7 @@ def atualizar_treino():
       if new_desc != "":
         treino["descricao"] = new_desc
       atualizado = True
-      with open("treinos.json", "w") as f:
-        json.dump(lista, f, indent=4)
+      storage.salvar_treinos(lista)
       print("treino adicionado com sucesso!")
     if not atualizado:
       print("Nenhum treino com essa data")
@@ -106,8 +107,7 @@ def deletar_treino():
       if treino["data"] == del_t:
         lista.remove(treino)
         deletado = True
-      with open("treinos.json", "w") as f:
-        json.dump(lista, f, indent=4)
+      storage.salvar_treinos(lista)
       print("treino deletado com sucesso!")
     if not deletado:
       print("Nao há treinos com essa data!")
@@ -159,11 +159,11 @@ def estatistitcas():
     print("Treino mais longo:")
     for treino in lista:
       if treino["duracao"] == moretime:
-        utils.mostrar_treino(treino)
+        service.mostrar_treino(treino)
     print("treino mais curto:")
     for treino in lista:
       if treino["duracao"] == lesstime:
-        utils.mostrar_treino(treino)
+        service.mostrar_treino(treino)
     print("Tipo de treino:") 
     tipos = [treino["tipo"] for treino in lista]
     contagem = {}
