@@ -12,6 +12,13 @@ if os.path.exists("treinos.json"):
 else:
   lista = []
 
+def pos_alteração():
+  storage.salvar_treinos(lista)
+  resultado = service.alert(lista)
+  if resultado:
+    print(resultado)
+  print("REALIZADO COM SUCESSO!")
+
 # Funcao para manter a duracao sempre em numeros acima de 0
 def pedir_duracao():
     while True:
@@ -44,11 +51,7 @@ def adicionar_treino():
   treino = service.criar_treino(data, tipo, duracao, descricao)
   
   lista.append(treino)
-  storage.salvar_treinos(lista)
-  resultado = service.alert(lista)
-  if resultado:
-    print(resultado)
-  print("Treino adicionado com sucesso!")
+  pos_alteração()
 
 #def para procurar um treino pela data
 def procurar_treino():
@@ -92,8 +95,7 @@ def atualizar_treino():
       if new_desc != "":
         treino["descricao"] = new_desc
       atualizado = True
-      storage.salvar_treinos(lista)
-      print("treino adicionado com sucesso!")
+      pos_alteração()
     if not atualizado:
       print("Nenhum treino com essa data")
   else:
@@ -109,8 +111,7 @@ def deletar_treino():
       if treino["data"] == del_t:
         lista.remove(treino)
         deletado = True
-      storage.salvar_treinos(lista)
-      print("treino deletado com sucesso!")
+      pos_alteração()
     if not deletado:
       print("Nao há treinos com essa data!")
   else:
