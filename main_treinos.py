@@ -40,7 +40,9 @@ def adicionar_treino():
   tipo = input("Tipo do treino:")
   duracao = pedir_duracao()
   descricao = input("Descrição do treino:")
+
   treino = service.criar_treino(data, tipo, duracao, descricao)
+  
   lista.append(treino)
   storage.salvar_treinos(lista)
   resultado = service.alert(lista)

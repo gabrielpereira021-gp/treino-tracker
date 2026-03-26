@@ -25,9 +25,11 @@ def mostrar_treino(treino):
     print(f"Descrição:", treino["descricao"])
     print("_"*10)
 
+# Função de alerta de descanso a cada 3 dias consecutivos
 def alert(lista):
     if len(lista) >= 3:
-        ultimos = lista[-3:]
+        ordenados = organizar_por_data(lista)
+        ultimos = ordenados[-3:]
         datas = [datetime.strptime(t["data"], "%d/%m/%Y") for t in ultimos]
         dif1 = (datas[1] - datas[0]).days
         dif2 = (datas[2] - datas[1]).days
@@ -35,3 +37,10 @@ def alert(lista):
             return "Você treinou em dias muito próximos. Considere descansar!"
         return None
     return None
+
+#função para organizacao da lista por data
+def organizar_por_data(lista):
+    return sorted(
+        lista,
+        key=lambda t: datetime.strptime(t["data"], "%d/%m/%Y")
+    )
