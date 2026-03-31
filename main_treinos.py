@@ -12,6 +12,7 @@ if os.path.exists("treinos.json"):
 else:
   lista = []
 
+# def para executar pos alteracao ao ficheiro json
 def pos_alteração():
   storage.salvar_treinos(lista)
   resultado = service.alert(lista)
@@ -52,20 +53,6 @@ def adicionar_treino():
   
   lista.append(treino)
   pos_alteração()
-
-#def para procurar um treino pela data
-def procurar_treino():
-  if len(lista) > 0:
-    data_procurada = pedir_data()
-    encontrado = False
-    for treino in lista:
-      if treino["data"] == data_procurada:
-        service.mostrar_treino(treino)
-        encontrado = True
-    if not encontrado:
-      print("nenhum treino encontrado com essa data.")
-  else:
-    print("Nenhum treino adicionado!")
 
 #def para listar todos os treinos adicionados
 def listar_treinos():
@@ -117,31 +104,42 @@ def deletar_treino():
   else:
     print("Nao há treinos adicionados")
 
+#def para procurar um treino pela data
+def treinos_por_data(): 
+  if len(lista) > 0:
+    data_procurada = pedir_data()
+    treinos = service.encontrar_data(lista, data_procurada)
+    if treinos:
+      for treino in treinos:
+        service.mostrar_treino(treino)
+    else:
+      print("Nenhum treino encontrado com essa data!")
+  else:
+    print("Nenhum treino adicionado!")
+
 #def para buscar todos os treinos de um tipo
-def buscar_tipo():
+def treinos_por_tipo():
   if len(lista) > 0:
     tipo_procurado = input("Digite o tipo de treino:")
-    encontrado = False
-    for treino in lista:
-      if treino["tipo"] == tipo_procurado:
-        utils.mostrar_treino(treino)
-        encontrado = True
-    if not encontrado:
-      print("nenhum treino encontrado deste tipo.")
+    treinos = service.encontrar_tipo(tipo_procurado, lista)
+    if treinos:
+      for treino in treinos:
+        service.mostrar_treino(treino)
+    else:
+      print("Nenhum treino encontrado com esse tipo!")
   else:
     print("Nenhum treino adicionado!")
 
 #def para buscar treinos por duracao minima
-def buscar_duracao():
+def treinos_por_duracao():
   if len(lista) > 0:
-    duracao_procurada = utils.pedir_duracao()
-    encontrado = False
-    for treino in lista:
-      if treino["duracao"] >= duracao_procurada:
-        utils.mostrar_treino(treino)
-        encontrado = True
-    if not encontrado:
-      print("nenhum treino encontrado deste tipo.")
+    duracao_procurada = pedir_duracao()
+    treinos = service.encontrar_duracao(lista, duracao_procurada)
+    if treinos:
+      for treino in treinos:
+        service.mostrar_treino(treino)
+    else:
+      print("Nenhum treino encontrado com essa duração!")
   else:
     print("Nenhum treino adicionado!")
   
@@ -186,17 +184,42 @@ def estatistitcas():
   else:
     print("Nao há treinos adicionados!")
 
+def procurar_por_treinos():
+  if len(lista) > 0:
+    while True:
+      print ("1 - Treinos por data")
+      print ("2 - Treinos por tipo")
+      print ("3 - Treinos por duração")
+      print ("0 - Voltar")
+
+      opcao = input("Digite a opção desejada:")
+
+      if opcao == "1":
+        print("-"*10, "Treinos por data", "-"*10)
+        treinos_por_data()
+      elif opcao == "2":
+        print("-"*10, "Treinos por tipo", "-"*10)
+        treinos_por_tipo()
+      elif opcao == "3":
+        print("-"*10, "Treinos por duração", "-"*10)
+        treinos_por_duracao()
+      elif opcao == "0":
+        print("voltando ao menu principal...")
+        break
+      else:
+        print("Opção indisponivel!")
+  else:
+    print("Não há treinos adicionados!")
+
 # menu funcional
 while True:
   print ("-"*10, "MENU", "-"*10)
   print ("1 - adicionar treino")
-  print ("2 - buscar treino por data")
-  print ("3 - listar treino")
+  print ("2 - listar treino")
+  print ("3 - buscar por treinos")
   print ("4 - atualizar treino")
   print ("5 - deletar treino")
-  print ("6 - buscar treino por tipo")
-  print ("7 - buscar treino por duracao")
-  print ("8 - estatisticas")
+  print ("6 - estatisticas")
   print ("0 - sair")
 
   escolha = input("digiten sua escolha: ")
@@ -205,11 +228,11 @@ while True:
     print ("-"*10,"adicionar treino","-"*10)
     adicionar_treino()
   elif escolha == "2":
-    print ("-"*10,"procurar treino","-"*10)
-    procurar_treino()
-  elif escolha == "3":
     print ("-"*10,"listar treino","-"*10)
     listar_treinos()
+  elif escolha == "3":
+    print ("-"*10,"buscar por treinos","-"*10)
+    procurar_por_treinos()
   elif escolha == "4":
     print ("-"*10,"atualizar treino","-"*10)
     atualizar_treino()
@@ -217,12 +240,6 @@ while True:
     print ("-"*10,"deletar treino","-"*10)
     deletar_treino()
   elif escolha == "6":
-    print ("-"*10,"buscar treino por tipo","-"*10)
-    buscar_tipo()
-  elif escolha == "7":
-    print ("-"*10,"buscar treino por duracao","-"*10)
-    buscar_duracao()
-  elif escolha == "8":
     print ("-"*10,"estatisticas","-"*10)
     estatistitcas()
   elif escolha == "0":

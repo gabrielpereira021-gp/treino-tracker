@@ -44,3 +44,28 @@ def organizar_por_data(lista):
         lista,
         key=lambda t: datetime.strptime(t["data"], "%d/%m/%Y")
     )
+
+#def para enviar a exibiçao de treinos por tipo
+def encontrar_tipo(tipo_procurado, lista):
+    treinos_found = []
+    for treino in lista:
+        if treino["tipo"] == tipo_procurado:
+            treinos_found.append(treino)
+    return treinos_found
+
+#def para buscar os treinos por duracao minima
+def encontrar_duracao(lista, duracao_procurada):
+    treinos_found = []
+    for treino in lista:
+        if treino["duracao"] >= duracao_procurada:
+            treinos_found.append(treino)
+    return treinos_found
+
+#def para buscar treinos por data
+def encontrar_data(lista, data_procurada):
+    treinos_found = []
+    for treino in lista:
+        if treino["data"] == data_procurada:
+            treinos_found.append(treino)
+    return treinos_found
+    
