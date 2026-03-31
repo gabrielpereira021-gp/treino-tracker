@@ -108,7 +108,8 @@ def deletar_treino():
 def treinos_por_data(): 
   if len(lista) > 0:
     data_procurada = pedir_data()
-    treinos = service.encontrar_data(lista, data_procurada)
+    condicao = lambda treinos: treinos["data"] == data_procurada
+    treinos = service.filtrar(lista, condicao)
     if treinos:
       for treino in treinos:
         service.mostrar_treino(treino)
@@ -121,7 +122,8 @@ def treinos_por_data():
 def treinos_por_tipo():
   if len(lista) > 0:
     tipo_procurado = input("Digite o tipo de treino:")
-    treinos = service.encontrar_tipo(tipo_procurado, lista)
+    condicao = lambda treinos: treinos["tipo"] == tipo_procurado
+    treinos = service.filtrar(lista, condicao)
     if treinos:
       for treino in treinos:
         service.mostrar_treino(treino)
@@ -134,7 +136,8 @@ def treinos_por_tipo():
 def treinos_por_duracao():
   if len(lista) > 0:
     duracao_procurada = pedir_duracao()
-    treinos = service.encontrar_duracao(lista, duracao_procurada)
+    condicao = lambda treinos: treinos["duracao"] >= duracao_procurada
+    treinos = service.filtrar(lista, condicao)
     if treinos:
       for treino in treinos:
         service.mostrar_treino(treino)
