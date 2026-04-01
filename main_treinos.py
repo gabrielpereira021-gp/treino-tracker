@@ -12,6 +12,14 @@ if os.path.exists("treinos.json"):
 else:
   lista = []
 
+def pos_busca(condicao):
+  treinos = service.filtrar(lista, condicao)
+  if treinos:
+    for treino in treinos:
+      service.mostrar_treino(treino)
+  else:
+    print("Nenhum treino encontrado!")
+
 # def para executar pos alteracao ao ficheiro json
 def pos_alteração():
   storage.salvar_treinos(lista)
@@ -68,21 +76,21 @@ def atualizar_treino():
     tr_az = input("Digite a data do treino:")
     atualizado = False
     for treino in lista:
-      treino["data"] == tr_az
-      new_data = input("insira a nova data (ENTER para nao modificar):")
-      if new_data != "":
-        treino["data"] = new_data
-      new_type = input("insira a novo tipo (ENTER para nao modificar):")
-      if new_type != "":
-        treino["tipo"] = new_type
-      new_dur = input("insira a nova duração (ENTER para nao modificar):")
-      if new_dur != "":
-        treino["duracao"] = int(new_dur)
-      new_desc = input("insira a nova descricao (ENTER para nao modificar):")
-      if new_desc != "":
-        treino["descricao"] = new_desc
-      atualizado = True
-      pos_alteração()
+      if treino["data"] == tr_az:
+        new_data = input("insira a nova data (ENTER para nao modificar):")
+        if new_data != "":
+          treino["data"] = new_data
+        new_type = input("insira a novo tipo (ENTER para nao modificar):")
+        if new_type != "":
+          treino["tipo"] = new_type
+        new_dur = input("insira a nova duração (ENTER para nao modificar):")
+        if new_dur != "":
+          treino["duracao"] = int(new_dur)
+        new_desc = input("insira a nova descricao (ENTER para nao modificar):")
+        if new_desc != "":
+          treino["descricao"] = new_desc
+        atualizado = True
+        pos_alteração()
     if not atualizado:
       print("Nenhum treino com essa data")
   else:
@@ -92,7 +100,7 @@ def atualizar_treino():
 def deletar_treino():
   if len(lista) > 0:
     print("Digite a data do treino que deseja deletar:")
-    del_t = input("dd-mm-aaaa:")
+    del_t = pedir_data()
     deletado = False 
     for treino in lista:
       if treino["data"] == del_t:
@@ -109,12 +117,7 @@ def treinos_por_data():
   if len(lista) > 0:
     data_procurada = pedir_data()
     condicao = lambda treinos: treinos["data"] == data_procurada
-    treinos = service.filtrar(lista, condicao)
-    if treinos:
-      for treino in treinos:
-        service.mostrar_treino(treino)
-    else:
-      print("Nenhum treino encontrado com essa data!")
+    pos_busca(condicao)
   else:
     print("Nenhum treino adicionado!")
 
@@ -123,12 +126,7 @@ def treinos_por_tipo():
   if len(lista) > 0:
     tipo_procurado = input("Digite o tipo de treino:")
     condicao = lambda treinos: treinos["tipo"] == tipo_procurado
-    treinos = service.filtrar(lista, condicao)
-    if treinos:
-      for treino in treinos:
-        service.mostrar_treino(treino)
-    else:
-      print("Nenhum treino encontrado com esse tipo!")
+    pos_busca(condicao)
   else:
     print("Nenhum treino adicionado!")
 
@@ -137,12 +135,7 @@ def treinos_por_duracao():
   if len(lista) > 0:
     duracao_procurada = pedir_duracao()
     condicao = lambda treinos: treinos["duracao"] >= duracao_procurada
-    treinos = service.filtrar(lista, condicao)
-    if treinos:
-      for treino in treinos:
-        service.mostrar_treino(treino)
-    else:
-      print("Nenhum treino encontrado com essa duração!")
+    pos_busca(condicao)
   else:
     print("Nenhum treino adicionado!")
   
@@ -187,6 +180,7 @@ def estatistitcas():
   else:
     print("Nao há treinos adicionados!")
 
+#def de menu para busca de treinos dependendo do objeto de busca
 def procurar_por_treinos():
   if len(lista) > 0:
     while True:
@@ -214,7 +208,7 @@ def procurar_por_treinos():
   else:
     print("Não há treinos adicionados!")
 
-# menu funcional
+# menu principal
 while True:
   print ("-"*10, "MENU", "-"*10)
   print ("1 - adicionar treino")
