@@ -17,6 +17,28 @@ def criar_treino(data, tipo, duracao, descricao):
         "descricao": descricao
     }
 
+def formatar_treino(treino):
+    return (
+            f"Data: {treino['data']}<br>"
+            f"Tipo: {treino['tipo']}<br>"
+            f"Duração: {treino['duracao']} min<br>"
+            f"Descrição: {treino['descricao']}<br>"
+            + "<hr>"
+
+        )
+
+def mostrar_treino_flask(treino):
+    resultado = ""
+    for obj in treino:
+        resultado += (
+            f"Data: {treino['data']}\n"
+            f"Tipo: {treino['tipo']}\n"
+            f"Duração: {treino['duracao']} min\n"
+            f"Descrição: {treino['descricao']}\n"
+            + "_"*10 + "\n"
+        )
+    return resultado
+
 # Funcao para mostrar os treinos de melho forma no terminal
 def mostrar_treino(treino):
     print(f"Data:", treino["data"])
