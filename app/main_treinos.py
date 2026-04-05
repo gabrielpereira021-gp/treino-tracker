@@ -5,14 +5,8 @@ import storage
 import service
 from datetime import datetime
 
-#criaçao alto de ficheiro e conexao com a lista
-if os.path.exists("treinos.json"):
-  with open("treinos.json", "r") as f:
-    lista = json.load(f)
-else:
-  lista = []
-
 def pos_busca(condicao):
+  lista = storage.carregar_treinos()
   treinos = service.filtrar(lista, condicao)
   if treinos:
     for treino in treinos:
@@ -52,6 +46,7 @@ def pedir_data():
 
 #def para adicionar um novo treino
 def adicionar_treino():
+  lista = storage.carregar_treinos()
   data = pedir_data()
   tipo = input("Tipo do treino:")
   duracao = pedir_duracao()
@@ -64,6 +59,7 @@ def adicionar_treino():
 
 #def para listar todos os treinos adicionados
 def listar_treinos():
+  lista = storage.carregar_treinos()
   if len(lista) > 0:
     for treino in lista:
       service.mostrar_treino(treino)
@@ -72,6 +68,7 @@ def listar_treinos():
 
 #def para fazer a atualizacao de infomacoes do treino
 def atualizar_treino():
+  lista = storage.carregar_treinos()
   if len(lista) > 0:
     tr_az = input("Digite a data do treino:")
     atualizado = False
@@ -98,6 +95,7 @@ def atualizar_treino():
 
 #def para deletar treinos
 def deletar_treino():
+  lista = storage.carregar_treinos()
   if len(lista) > 0:
     print("Digite a data do treino que deseja deletar:")
     del_t = pedir_data()
@@ -113,7 +111,8 @@ def deletar_treino():
     print("Nao há treinos adicionados")
 
 #def para procurar um treino pela data
-def treinos_por_data(): 
+def treinos_por_data():
+  lista = storage.carregar_treinos() 
   if len(lista) > 0:
     data_procurada = pedir_data()
     condicao = lambda treinos: treinos["data"] == data_procurada
@@ -123,6 +122,7 @@ def treinos_por_data():
 
 #def para buscar todos os treinos de um tipo
 def treinos_por_tipo():
+  lista = storage.carregar_treinos()
   if len(lista) > 0:
     tipo_procurado = input("Digite o tipo de treino:")
     condicao = lambda treinos: treinos["tipo"] == tipo_procurado
@@ -132,6 +132,7 @@ def treinos_por_tipo():
 
 #def para buscar treinos por duracao minima
 def treinos_por_duracao():
+  lista = storage.carregar_treinos()
   if len(lista) > 0:
     duracao_procurada = pedir_duracao()
     condicao = lambda treinos: treinos["duracao"] >= duracao_procurada
@@ -141,6 +142,7 @@ def treinos_por_duracao():
   
 #def para as estatisticas de treinos
 def estatistitcas():
+  lista = storage.carregar_treinos()
   if len(lista) > 0:
     total = len(lista)
     duracoes = [treino["duracao"] for treino in lista]
