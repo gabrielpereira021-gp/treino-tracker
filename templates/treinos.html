@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charser="UTF-8" />
+    <title>Treinos</title>
+</head>
+<body>
+    <h1>Treinos</h1>
+    {% if treinos %}
+        {%for treino in treinos %}
+            <div>
+                <p>Data: {{ treino["data"] }}</p>
+                <p>Tipo: {{ treino["tipo"] }}</p>
+                <p>Duração: {{ treino["duracao"] }}</p>
+                <p>Descrição: {{ treino["descricao"] }}</p>
+            </div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>Não há treinos adicionados!</p>
+    {% endif %}
+</body>
+</html>

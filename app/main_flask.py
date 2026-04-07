@@ -26,24 +26,16 @@ def home():
 def lista_treinos():
     lista = storage.carregar_treinos()
     
-    if lista:
-        resultado = ""
-
-        for treino in lista:
-            resultado += service.formatar_treino(treino)
-
-        return resultado
-    else:
-        return "Nao há treinos adicionados!"
+    return render_template("treinos.html", treinos=lista)
 
 @app.route("/treino/forca")
 def mostra_tipo_forca():
     lista = storage.carregar_treinos()
     
     tipo_procurado = "forca"
-    condicao =  lambda treinos: treinos["tipo"] == tipo_procurado
-    retorno = pos_busca(lista, condicao)
-    return retorno
+    filtrados =  service.filtrar(lista, lambda treinos: treinos["tipo"] == tipo_procurado)
+    
+    return render_template("treinos.html", treinos=filtrados)
 
 if __name__ == "__main__":
     app.run(debug=True)
