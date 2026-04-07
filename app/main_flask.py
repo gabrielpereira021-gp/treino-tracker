@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, render_template
 import os
-import json
 import service
 import storage
 
-app = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
+
+app = Flask(__name__, template_folder=TEMPLATE_DIR)
 
 def pos_busca(lista, condicao):
     treinos = service.filtrar(lista, condicao)
@@ -15,6 +17,10 @@ def pos_busca(lista, condicao):
         return resultado
     else:
         return "Nenhum treino encontrado!"
+
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 @app.route("/treino")
 def lista_treinos():
