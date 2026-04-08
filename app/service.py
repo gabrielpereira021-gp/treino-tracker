@@ -4,16 +4,16 @@ import storage
 from datetime import datetime
 
 # Funcao de criacao de treino separada do codigo principal
-def criar_treino(data, tipo, duracao, descricao):
+def criar_treino(data_formatada, tipo, duracao_validada, descricao):
     if not tipo:
         raise ValueError("É nescessario ter um tipo valido, ex (força, tecnica, corrida...)")
-    if duracao <= 0:
+    if duracao_validada <= 0:
         raise ValueError("A duração tem que ser um número positivo.")
 
     return {
-        "data": data, 
+        "data": data_formatada, 
         "tipo": tipo, 
-        "duracao": duracao, 
+        "duracao": duracao_validada, 
         "descricao": descricao
     }
 
@@ -75,3 +75,35 @@ def filtrar(lista, condicao):
         if condicao(treinos):
             treinos_found.append(treinos)
     return treinos_found
+
+def validar_data(data):
+    try:
+        data_obj = datetime.strptime(data, "%Y-%m-%d")
+        data_formatada = data_obj.strftime("%d/%m/%Y")
+        return data_formatada
+    except:
+        return None
+
+def validar_duracao(duracao):
+    try:
+        duracao_num = float(duracao)
+        if duracao_num > 0:
+            return duracao_num
+        else:
+            return None
+    except:
+        return None
+
+def validar_dados(data, tipo, duracao, descricao):
+    erros = []
+
+    data_formatada = validar_data(data)
+    if not data_formatada:
+        erros.append("Data inválida")
+    duracao_validada = validar_duracao(duracao)
+    if not duracao_validada:
+        erros.append("Duração inválida")
+    
+    if erros:
+        return False, erros
+    return True, criar_treino(data_formatada, tipo, duracao_validada, descricao)

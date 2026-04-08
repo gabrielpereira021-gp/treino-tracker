@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 import os
 import service
 import storage
@@ -36,6 +36,32 @@ def mostra_tipo_forca():
     filtrados =  service.filtrar(lista, lambda treinos: treinos["tipo"] == tipo_procurado)
     
     return render_template("treinos.html", treinos=filtrados)
+
+@app.route("/add", methods=["POST", "GET"])
+def add_treino():
+    lista = storage.carregar_treinos()
+
+    if request.method == "GET":
+        return render_template("add_treinos.html")
+    
+    if request.method == "POST":
+        data = request.form['data']
+        tipo = request.form['tipo']
+        duracao = request.form['duracao']
+        descricao = request.form['descricao']
+
+        valido, dados_ou_erros = service.validar_dados(data, tipo, duracao, descricao)
+
+        if valido:
+            lista.append(dados_ou_erros)
+            storage.salvar_treinos(lista)
+            return jsonify({"mensagem": "Dados válidos!", "dados": dados_ou_erros})
+        else:
+            return jsonify({"erros": dados_ou_erros}), 400
+            
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

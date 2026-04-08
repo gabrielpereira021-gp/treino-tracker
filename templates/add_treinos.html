@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charser="UTF-8" />
+    <title>Adicionar Treino</title>
+</head>
+<body>
+    <h1>Adicionar Treino</h1>
+    <form action="/add" method="POST">
+        <input type="date" name="data" placeholder="Data" required>
+        <input type="text" name="tipo" placeholder="Tipo" required maxlength="50">
+        <input type="number" name="duracao" placeholder="Duração" required min="1">
+        <input type="text" name="descricao" placeholder="Descrição" required maxlength="200">
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
