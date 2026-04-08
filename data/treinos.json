@@ -34,5 +34,23 @@
         "tipo": "t\u00e9cnico",
         "duracao": 60.0,
         "descricao": "Treino t\u00e9cnico focado em manchete"
+    },
+    {
+        "data": "09/04/2026",
+        "tipo": "t\u00e9cnico",
+        "duracao": 60.0,
+        "descricao": "Treino t\u00e9cnico focado em toque e ataque."
+    },
+    {
+        "data": "09/04/2026",
+        "tipo": "t\u00e9cnico",
+        "duracao": 60.0,
+        "descricao": "Treino t\u00e9cnico focado em toque e ataque."
+    },
+    {
+        "data": "09/04/2026",
+        "tipo": "t\u00e9cnico",
+        "duracao": 60.0,
+        "descricao": "Treino t\u00e9cnico focado em toque e ataque."
     }
 ]

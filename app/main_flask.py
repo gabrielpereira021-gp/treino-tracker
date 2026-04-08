@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 import os
 import service
 import storage
@@ -7,6 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
 app = Flask(__name__, template_folder=TEMPLATE_DIR)
+app.secret_key = "@Ban021"
 
 def pos_busca(lista, condicao):
     treinos = service.filtrar(lista, condicao)
@@ -55,9 +56,11 @@ def add_treino():
         if valido:
             lista.append(dados_ou_erros)
             storage.salvar_treinos(lista)
-            return jsonify({"mensagem": "Dados válidos!", "dados": dados_ou_erros})
+            flash("Treino adicionado com sucesso!")
+            return redirect(url_for("lista_treinos"))
         else:
-            return jsonify({"erros": dados_ou_erros}), 400
+            flash("Dado(s) invalido(s)!")
+            return redirect(url_for("add_treino"))
             
 
 

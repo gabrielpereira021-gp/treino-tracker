@@ -1,6 +1,5 @@
 import json
 import os
-import storage
 from datetime import datetime
 
 # Funcao de criacao de treino separada do codigo principal
@@ -16,36 +15,6 @@ def criar_treino(data_formatada, tipo, duracao_validada, descricao):
         "duracao": duracao_validada, 
         "descricao": descricao
     }
-
-def formatar_treino(treino):
-    return (
-            f"Data: {treino['data']}<br>"
-            f"Tipo: {treino['tipo']}<br>"
-            f"Duração: {treino['duracao']} min<br>"
-            f"Descrição: {treino['descricao']}<br>"
-            + "<hr>"
-
-        )
-
-def mostrar_treino_flask(treino):
-    resultado = ""
-    for obj in treino:
-        resultado += (
-            f"Data: {treino['data']}\n"
-            f"Tipo: {treino['tipo']}\n"
-            f"Duração: {treino['duracao']} min\n"
-            f"Descrição: {treino['descricao']}\n"
-            + "_"*10 + "\n"
-        )
-    return resultado
-
-# Funcao para mostrar os treinos de melho forma no terminal
-def mostrar_treino(treino):
-    print(f"Data:", treino["data"])
-    print(f"Tipo:", treino["tipo"])
-    print(f"Duração:", treino["duracao"], "min")
-    print(f"Descrição:", treino["descricao"])
-    print("_"*10)
 
 # Função de alerta de descanso a cada 3 dias consecutivos
 def alert(lista):
@@ -103,6 +72,8 @@ def validar_dados(data, tipo, duracao, descricao):
     duracao_validada = validar_duracao(duracao)
     if not duracao_validada:
         erros.append("Duração inválida")
+    if not tipo:
+        erros.append("Tipo inválido")
     
     if erros:
         return False, erros
