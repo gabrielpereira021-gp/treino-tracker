@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, make_response
 import os
 import service
 import storage
@@ -26,6 +26,13 @@ def home():
 @app.route("/treino")
 def lista_treinos():
     lista = storage.carregar_treinos()
+
+    ordem = request.args.get("ordem", "desc")
+
+    if ordem == "asc":
+        lista = service.organizar_por_data(lista)
+    else:
+        lista = list(reversed(service.organizar_por_data(lista)))
     
     return render_template("treinos.html", treinos=lista)
 
@@ -43,7 +50,11 @@ def add_treino():
     lista = storage.carregar_treinos()
 
     if request.method == "GET":
-        return render_template("add_treinos.html")
+        return make_response(render_template("add_treinos.html"))
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revaliedade"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
     
     if request.method == "POST":
         data = request.form['data']

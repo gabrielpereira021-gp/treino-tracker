@@ -42,15 +42,21 @@
         "descricao": "Treino t\u00e9cnico focado em toque e ataque."
     },
     {
-        "data": "09/04/2026",
+        "data": "10/04/2026",
         "tipo": "t\u00e9cnico",
         "duracao": 60.0,
-        "descricao": "Treino t\u00e9cnico focado em toque e ataque."
+        "descricao": "Treino t\u00e9cnico de aterrisagem p\u00f3s salto"
     },
     {
-        "data": "09/04/2026",
-        "tipo": "t\u00e9cnico",
+        "data": "11/04/2026",
+        "tipo": "for\u00e7a",
         "duracao": 60.0,
-        "descricao": "Treino t\u00e9cnico focado em toque e ataque."
+        "descricao": "Treino de for\u00e7a superior e core"
+    },
+    {
+        "data": "14/04/2026",
+        "tipo": "quadra",
+        "duracao": 120.0,
+        "descricao": "Treino t\u00e9cnico em quadra"
     }
 ]
