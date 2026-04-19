@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charser="UTF-8" />
+    <meta charset="UTF-8" />
     <title>Treinos</title>
 </head>
 <body>
@@ -19,6 +19,9 @@
                 <p>Tipo: {{ treino["tipo"] }}</p>
                 <p>Duração: {{ treino["duracao"] }}</p>
                 <p>Descrição: {{ treino["descricao"] }}</p>
+            <form action="/del/{{ treino.id }}" method="POST">
+                <button type="submit">Deletar</button>
+            </form>
             </div>
             <hr>
         {% endfor %}

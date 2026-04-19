@@ -39,15 +39,6 @@ def lista_treinos():
     
     return render_template("treinos.html", treinos=lista)
 
-@app.route("/treino/forca")
-def mostra_tipo_forca():
-    lista = storage.carregar_treinos()
-    
-    tipo_procurado = "forca"
-    filtrados =  service.filtrar(lista, lambda treinos: treinos["tipo"] == tipo_procurado)
-    
-    return render_template("treinos.html", treinos=filtrados)
-
 @app.route("/add", methods=["POST", "GET"])
 def add_treino():
     lista = storage.carregar_treinos()
@@ -76,7 +67,13 @@ def add_treino():
             flash("Dado(s) invalido(s)!")
             return redirect(url_for("add_treino"))
 
+@app.route("/del/<id>", methods=["POST"])
+def deletar_treino(id):
+    lista = storage.carregar_treinos()
 
+    lista = service.del_treino(lista, id)
+    storage.salvar_treinos(lista)
+    return redirect(url_for("lista_treinos"))
 
 
 if __name__ == "__main__":

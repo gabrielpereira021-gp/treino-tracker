@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime
+import uuid
 
 # Funcao de criacao de treino separada do codigo principal
 def criar_treino(data_formatada, tipo, duracao_validada, descricao):
@@ -10,6 +11,7 @@ def criar_treino(data_formatada, tipo, duracao_validada, descricao):
         raise ValueError("A duração tem que ser um número positivo.")
 
     return {
+        "id": str(uuid.uuid4()),
         "data": data_formatada, 
         "tipo": tipo, 
         "duracao": duracao_validada, 
@@ -78,3 +80,12 @@ def validar_dados(data, tipo, duracao, descricao):
     if erros:
         return False, erros
     return True, criar_treino(data_formatada, tipo, duracao_validada, descricao)
+
+def del_treino(lista, id):
+    for treino in lista:
+        if treino["id"] == id:
+            lista.remove(treino)
+            return lista
+        
+    else:
+        return lista
