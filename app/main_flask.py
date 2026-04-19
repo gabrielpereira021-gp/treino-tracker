@@ -1,13 +1,16 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, make_response
+from dotenv import load_dotenv
 import os
 import service
 import storage
+
+load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
 app = Flask(__name__, template_folder=TEMPLATE_DIR)
-app.secret_key = "@Ban021"
+app.secret_key = os.getenv("SECRET_KEY")
 
 def pos_busca(lista, condicao):
     treinos = service.filtrar(lista, condicao)
@@ -50,7 +53,7 @@ def add_treino():
     lista = storage.carregar_treinos()
 
     if request.method == "GET":
-        return make_response(render_template("add_treinos.html"))
+        response = make_response(render_template("add_treinos.html"))
         response.headers["Cache-Control"] = "no-cache, no-store, must-revaliedade"
         response.headers["Pragma"] = "no-cache"
         response.headers["Expires"] = "0"
@@ -72,7 +75,6 @@ def add_treino():
         else:
             flash("Dado(s) invalido(s)!")
             return redirect(url_for("add_treino"))
-            
 
 
 
