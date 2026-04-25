@@ -56,7 +56,7 @@ def add_treino():
         duracao = request.form['duracao']
         descricao = request.form['descricao']
 
-        valido, dados_ou_erros = service.validar_dados(data, tipo, duracao, descricao)
+        valido, dados_ou_erros = service.validar_dados(data, tipo, duracao, descricao, id = None)
 
         if valido:
             lista.append(dados_ou_erros)
@@ -75,6 +75,34 @@ def deletar_treino(id):
     storage.salvar_treinos(lista)
     return redirect(url_for("lista_treinos"))
 
+@app.route("/edit/<id>", methods=["POST", "GET"])
+def edit_treino_app(id):
+    lista = storage.carregar_treinos()
+
+    if request.method == "GET":
+        for treino in lista:
+            if treino["id"] == id:
+                from datetime import datetime
+                treino_edit = dict(treino)  # copia para não alterar o original
+                treino_edit["data"] = datetime.strptime(treino["data"], "%d/%m/%Y").strftime("%Y-%m-%d")
+                return render_template("edit.html", treino=treino_edit)
+
+    if request.method == "POST":
+        data = request.form['data']
+        tipo = request.form['tipo']
+        duracao = request.form['duracao']
+        descricao = request.form['descricao']
+
+        valido, dados_ou_erros = service.validar_dados(data, tipo, duracao, descricao, id)
+
+        if valido:
+            lista = service.edit_treino(lista, id, dados_ou_erros)
+            storage.salvar_treinos(lista)
+            flash("Treino editado com sucesso!")
+            return redirect(url_for("lista_treinos"))
+        else:
+            flash("Dado(s) invalido(s)!")
+            return redirect(url_for("add_treino"))
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -4,14 +4,14 @@ from datetime import datetime
 import uuid
 
 # Funcao de criacao de treino separada do codigo principal
-def criar_treino(data_formatada, tipo, duracao_validada, descricao):
+def criar_treino(data_formatada, tipo, duracao_validada, descricao, id=None ):
     if not tipo:
         raise ValueError("É nescessario ter um tipo valido, ex (força, tecnica, corrida...)")
     if duracao_validada <= 0:
         raise ValueError("A duração tem que ser um número positivo.")
 
     return {
-        "id": str(uuid.uuid4()),
+        "id": id if id else str(uuid.uuid4()),
         "data": data_formatada, 
         "tipo": tipo, 
         "duracao": duracao_validada, 
@@ -65,7 +65,7 @@ def validar_duracao(duracao):
     except:
         return None
 
-def validar_dados(data, tipo, duracao, descricao):
+def validar_dados(data, tipo, duracao, descricao, id):
     erros = []
 
     data_formatada = validar_data(data)
@@ -79,7 +79,7 @@ def validar_dados(data, tipo, duracao, descricao):
     
     if erros:
         return False, erros
-    return True, criar_treino(data_formatada, tipo, duracao_validada, descricao)
+    return True, criar_treino(data_formatada, tipo, duracao_validada, descricao, id)
 
 def del_treino(lista, id):
     for treino in lista:
@@ -87,5 +87,16 @@ def del_treino(lista, id):
             lista.remove(treino)
             return lista
         
+    else:
+        return lista
+
+def edit_treino(lista, id, dados_ou_erros):
+    for treino in lista:
+        if treino["id"] == id:
+            treino["data"] = dados_ou_erros["data"]
+            treino["tipo"] = dados_ou_erros["tipo"]
+            treino["duracao"] = dados_ou_erros["duracao"]
+            treino["descricao"] = dados_ou_erros["descricao"]
+            return lista
     else:
         return lista
